@@ -221,9 +221,6 @@ export default class DialogAdapter {
           if (isFirefox) {
             this.reconnect();
           } else {
-            // Note: We might get a different host than the one received when the RTC transport was first created.
-            // It shouldn't matter as what we want here is to renegotiate candidates based on new local candidates,
-            // the remote ones don't need to change at all as those are the dialog server candidates and should still valid.
             const { host, port, turn } = await window.APP.hubChannel.getHost();
             const iceServers = this.getIceServers(host, port, turn);
             await this._sendTransport.updateIceServers({ iceServers });
@@ -295,9 +292,6 @@ export default class DialogAdapter {
           if (isFirefox) {
             this.reconnect();
           } else {
-            // Note: We might get a different host than the one received when the RTC transport was first created.
-            // It shouldn't matter as what we want here is to renegotiate candidates based on new local candidates,
-            // the remote ones don't need to change at all as those are the dialog server candidates and should still valid.
             const { host, port, turn } = await window.APP.hubChannel.getHost();
             const iceServers = this.getIceServers(host, port, turn);
             await this._recvTransport.updateIceServers({ iceServers });
