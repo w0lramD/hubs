@@ -213,11 +213,8 @@ export default class DialogAdapter {
       if (
         force ||
         this._sendTransport.connectionState === "failed" ||
-        this._sendTransport.connectionState === "disconnected" ||
-        (this._sendTransport.connectionState === "new" && this._lastSendConnectionState === "failed") ||
-        (this._sendTransport.connectionState !== "connected" &&
-          this._lastSendConnectionState !== null &&
-          this._sendTransport._producers.size > 0)
+        (!isFirefox && this._sendTransport.connectionState === "disconnected") ||
+        (this._sendTransport.connectionState === "new" && this._lastSendConnectionState === "failed")
       ) {
         this.emitRTCEvent("log", "RTC", () => `Restarting send transport ICE`);
         if (this._protoo.connected) {
@@ -290,7 +287,7 @@ export default class DialogAdapter {
       if (
         force ||
         this._recvTransport.connectionState === "failed" ||
-        this._recvTransport.connectionState === "disconnected" ||
+        (!isFirefox && this._sendTransport.connectionState === "disconnected") ||
         (this._recvTransport.connectionState === "new" && this._lastRecvConnectionState === "failed")
       ) {
         this.emitRTCEvent("log", "RTC", () => `Restarting receive transport ICE`);
