@@ -58,19 +58,19 @@ export function CollapsiblePanel({
           </button>
         )}
         {url && (
-          <button className={classNames(styles.logButton)} onClick={() => openLink(url)}>
+          <button className={classNames(styles.helpButton)} onClick={() => openLink(url)}>
             ?
           </button>
         )}
         {(clear || download) && (
           <div className={styles.collapsibleRightButtons}>
             {download && (
-              <button className={classNames(styles.logButton)} onClick={download}>
+              <button className={classNames(styles.helpButton)} onClick={download}>
                 &#x2193;
               </button>
             )}
             {clear && (
-              <button className={classNames(styles.logButton)} onClick={clear}>
+              <button className={classNames(styles.helpButton)} onClick={clear}>
                 &#xd7;
               </button>
             )}
