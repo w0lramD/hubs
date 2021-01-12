@@ -66,6 +66,7 @@ export default class DialogAdapter {
     this._lastRecvConnectionState = null;
     this._sendTaskId = null;
     this._recvTaskId = null;
+    this._closed = true;
     this.scene = document.querySelector("a-scene");
   }
 
@@ -220,7 +221,7 @@ export default class DialogAdapter {
         if (this._protoo.connected) {
           if (isFirefox) {
             this.reconnect();
-          } else {
+          } else if (!this._sendTransport.closed) {
             const { host, port, turn } = await window.APP.hubChannel.getHost();
             const iceServers = this.getIceServers(host, port, turn);
             await this._sendTransport.updateIceServers({ iceServers });
@@ -291,7 +292,7 @@ export default class DialogAdapter {
         if (this._protoo.connected) {
           if (isFirefox) {
             this.reconnect();
-          } else {
+          } else if (!this._recvTransport.closed) {
             const { host, port, turn } = await window.APP.hubChannel.getHost();
             const iceServers = this.getIceServers(host, port, turn);
             await this._recvTransport.updateIceServers({ iceServers });
@@ -936,6 +937,9 @@ export default class DialogAdapter {
     // Stop the ICE connection state watchdogs.
     this.stopSendIceConnectionStateWd();
     this.stopRecvIceConnectionStateWd();
+
+    this._lastRecvConnectionState = null;
+    this._lastSendConnectionState = null;
   }
 
   reconnect() {
