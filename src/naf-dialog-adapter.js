@@ -112,9 +112,9 @@ export default class DialogAdapter {
           credential: turn.credential
         });
       });
-      iceServers.push({ urls: "stun:stun1.l.google.com:19302" }, { urls: "stun:stun2.l.google.com:19302" });
+      iceServers.push({ urls: "stun:stun1.l.google.com:19302" });
     } else {
-      iceServers.push({ urls: "stun:stun2.l.google.com:19302" });
+      iceServers.push({ urls: "stun:stun1.l.google.com:19302" }, { urls: "stun:stun2.l.google.com:19302" });
     }
 
     return iceServers;
