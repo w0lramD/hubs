@@ -373,8 +373,8 @@ export default class DialogAdapter {
 
     // eslint-disable-next-line no-unused-vars
     this._protoo.on("request", async (request, accept, reject) => {
-      this.emitRTCEvent("info", "Signaling", () => `Request [${request.method}]: ${request.data}`);
-      debug('proto "request" event [method:%s, data:%o]', request.method, request.data);
+      this.emitRTCEvent("info", "Signaling", () => `Request [${request.method}]: ${request.data?.id}`);
+      debug('proto "request" event [method:%s, data:%o]', request.method, request.data?.id);
 
       switch (request.method) {
         case "newConsumer": {
@@ -1174,9 +1174,10 @@ export default class DialogAdapter {
     const time = new Date().toLocaleTimeString("en-US", {
       hour12: false,
       hour: "numeric",
-      minute: "numeric"
+      minute: "numeric",
+      second: "numeric"
     });
-    this.scene.emit("rtc_event", { level, tag, msg: `[${time}]: ${msgFunc()}` });
+    this.scene.emit("rtc_event", { level, tag, time, msg: msgFunc() });
   }
 }
 

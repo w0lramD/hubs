@@ -15,6 +15,19 @@ function openLink(url) {
   win.focus();
 }
 
+function download(filename, text) {
+  const element = document.createElement("a");
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
 export function CollapsiblePanel({
   title,
   border,
@@ -26,7 +39,9 @@ export function CollapsiblePanel({
   children,
   data,
   collapsed,
-  onCollapse
+  onCollapse,
+  clear,
+  download
 }) {
   const rootClassName = classNames(border ? styles.borderTile : styles.borderlessTile);
   const rootStyle = {
@@ -56,9 +71,23 @@ export function CollapsiblePanel({
           </button>
         )}
         {url && (
-          <button className={classNames(styles.helpButton)} onClick={() => openLink(url)}>
+          <button className={classNames(styles.logButton)} onClick={() => openLink(url)}>
             ?
           </button>
+        )}
+        {(clear || download) && (
+          <div className={styles.collapsibleRightButtons}>
+            {download && (
+              <button className={classNames(styles.logButton)} onClick={download}>
+                &#x2193;
+              </button>
+            )}
+            {clear && (
+              <button className={classNames(styles.logButton)} onClick={clear}>
+                &#xd7;
+              </button>
+            )}
+          </div>
         )}
       </div>
       <div className={contentClassName} style={contentStyle}>
@@ -80,5 +109,7 @@ CollapsiblePanel.propTypes = {
   isRoot: PropTypes.bool,
   data: PropTypes.object,
   collapsed: PropTypes.bool,
-  onCollapse: PropTypes.func
+  onCollapse: PropTypes.func,
+  clear: PropTypes.func,
+  download: PropTypes.func
 };
